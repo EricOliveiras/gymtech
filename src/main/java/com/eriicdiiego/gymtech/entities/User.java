@@ -14,17 +14,27 @@ public class User {
   public String registration;
   public String fullName;
   public String phoneNumber;
+  public String password;
   public LocalDate createdAt;
   public LocalDate updatedAt;
 
   public User() {
   }
 
-  public User(Long id, String registration, String fullName, String phoneNumber, LocalDate createdAt, LocalDate updatedAt) {
+  public User(
+    Long id,
+    String registration,
+    String fullName,
+    String phoneNumber,
+    String password,
+    LocalDate createdAt,
+    LocalDate updatedAt
+  ) {
     this.id = id;
     this.registration = registration;
     this.fullName = fullName;
     this.phoneNumber = phoneNumber;
+    this.password = password;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
@@ -59,6 +69,14 @@ public class User {
 
   public void setPhoneNumber(String phoneNumber) {
     this.phoneNumber = phoneNumber;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
   }
 
   public LocalDate getCreatedAt() {
