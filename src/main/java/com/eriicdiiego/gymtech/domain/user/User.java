@@ -1,4 +1,4 @@
-package com.eriicdiiego.gymtech.entities;
+package com.eriicdiiego.gymtech.domain.user;
 
 import jakarta.persistence.*;
 
