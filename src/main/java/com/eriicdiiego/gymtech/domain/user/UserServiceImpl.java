@@ -1,23 +1,54 @@
 package com.eriicdiiego.gymtech.domain.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.eriicdiiego.gymtech.domain.user.payload.request.CreateUserRequest;
+import com.eriicdiiego.gymtech.domain.user.payload.response.UserResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl {
-  @Autowired
-  private UserRepository repository;
+public class UserServiceImpl implements IUserService {
+  private final UserRepository userRepository;
+  private final UserMapper userMapper;
 
-  public List<User> findAll() {
-    return repository.findAll();
+  public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+    this.userRepository = userRepository;
+    this.userMapper = userMapper;
   }
 
-  public User find(Long id) {
-    Optional<User> user = repository.findById(id);
+  @Override
+  public UserResponse save(CreateUserRequest createUserRequest) {
+    User user = userMapper.toEntity(createUserRequest);
+    return userMapper.toDto(userRepository.save(user));
+  }
 
-    return user.orElse(null);
+  @Override
+  public UserResponse find(Long id) {
+    return userMapper.toDto(findUser(id));
+  }
+
+  @Override
+  public List<UserResponse> findAll() {
+    Page<User> users = userRepository.findAll(
+      PageRequest.of(0, 20, Sort.by("fullName"))
+    );
+    return users
+      .stream()
+      .map(userMapper::toDto)
+      .collect(Collectors.toList());
+  }
+
+  private User findUser(Long id) {
+    return userRepository
+      .findById(id)
+      .orElseThrow(
+        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")
+      );
   }
 }
