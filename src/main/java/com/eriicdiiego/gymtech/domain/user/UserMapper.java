@@ -12,7 +12,6 @@ import java.util.List;
 public interface UserMapper {
   User toEntity(CreateUserRequest createUserRequest);
 
-  @Mapping(target = "id", ignore = true)
   UserResponse toDto(User user);
 
   List<UserResponse> toDto(List<User> users);
