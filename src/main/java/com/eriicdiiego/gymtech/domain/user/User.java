@@ -15,8 +15,20 @@ public class User {
   public String fullName;
   public String phoneNumber;
   public String password;
+  public String birthday;
   public LocalDate createdAt;
   public LocalDate updatedAt;
+
+  @PrePersist
+  protected void onCreate() {
+    createdAt = LocalDate.now();
+    updatedAt = LocalDate.now();
+  }
+
+  @PreUpdate
+  protected void onUpdate() {
+    updatedAt = LocalDate.now();
+  }
 
   public User() {
   }
@@ -27,6 +39,7 @@ public class User {
     String fullName,
     String phoneNumber,
     String password,
+    String birthday,
     LocalDate createdAt,
     LocalDate updatedAt
   ) {
@@ -35,6 +48,7 @@ public class User {
     this.fullName = fullName;
     this.phoneNumber = phoneNumber;
     this.password = password;
+    this.birthday = birthday;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
@@ -77,6 +91,14 @@ public class User {
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  public String getBirthday() {
+    return birthday;
+  }
+
+  public void setBirthday(String birthday) {
+    this.birthday = birthday;
   }
 
   public LocalDate getCreatedAt() {
