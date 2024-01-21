@@ -12,4 +12,6 @@ public interface IUserService {
   UserResponse find(Long id);
 
   List<UserResponse> findAll();
+
+  void delete(Long id);
 }
