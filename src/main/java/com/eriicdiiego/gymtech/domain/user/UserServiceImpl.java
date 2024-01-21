@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -49,6 +50,15 @@ public class UserServiceImpl implements IUserService {
       .stream()
       .map(userMapper::toDto)
       .collect(Collectors.toList());
+  }
+
+  @Override
+  public void delete(Long id) {
+    var user = userRepository.findById(id);
+    if (user.isEmpty()) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+    }
+    userRepository.deleteById(id);
   }
 
   private User findUser(Long id) {
